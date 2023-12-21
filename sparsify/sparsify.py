@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 
 # Add hybrid/l2 directories to path and import 
 parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -9,7 +10,12 @@ sys.path.append(os.path.join(parent_dir, "l2"))
 from hybrid import hybrid
 from l2 import l2
 
-def sparsify(A, eps: float=0.05, delta: float=0.1, method: str="hybrid"):
+def sparsify(
+    A: np.ndarray, 
+    eps: float=0.05, 
+    delta: float=0.1, 
+    method: str="hybrid"
+) -> np.ndarray:
     """
     Return a sparse sketch of input matrix A via element-wise 
     sparsification. Methods include hybrid, l1, and l2 sampling.
