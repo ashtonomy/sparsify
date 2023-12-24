@@ -1,3 +1,7 @@
+"""
+Unit tests for sparsify.
+"""
+
 import sys
 import os
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,13 +17,16 @@ class TestSparsify(unittest.TestCase):
 
     def get_test_matrix(self, m: int, n: Optional[int]=None) -> np.ndarray:
         """
-        Generate matrix for testing.
+        Generate matrix for testing. Identical to A_{0.1} synthetic data from 
+        Kundu et al. 2017: Recovering PCA and sparse-PCA via Hybrid-(l1,l2) 
+        Sparse Sampling of Data Elements
         """
         assert m > 0 and n > 0
-        if n is not None:
-            return np.random.rand(m, n)
-        else:
-            return np.random.rand(n, n)
+        if n is None:
+            n=m
+        binary_data_matrix = np.random.randint(0,1,(m,n))
+        noise_matrix = np.random.normal(0.0, 0.1, (m, n))
+        return binary_data_matrix + noise_matrix
 
 
     def test_sparsify(self):
@@ -55,6 +62,7 @@ class TestSparsify(unittest.TestCase):
                         self.assertNotEqual(np.abs(sparse_mat).sum(), 0)
 
                         pbar.update(1)
+
         pbar.close()
                 
     def test_l1(self):

@@ -26,7 +26,7 @@ def compute_s(A, f_a, eps, delta, l2_norm):
     """
     m, n = A.shape
     s = 2 / (((eps * l2_norm)**2))
-    s = s * np.log((m+n)/ delta)
+    s = s * np.log((m+n) / delta)
     return s * f_a
 
 #@njit
@@ -73,7 +73,7 @@ def compute_rho_squared(A, alpha, l1_norm, sq_fro_norm):
     max_col_sum = ksi_A.sum(0).max()
     max_row_sum = ksi_A.sum(1).max()
 
-    rho_2 = max(max_row_sum, max_col_sum) - smallest_sv
+    rho_2 = max(max_row_sum, max_col_sum) - (smallest_sv**2)
     return rho_2
 
 #@njit
